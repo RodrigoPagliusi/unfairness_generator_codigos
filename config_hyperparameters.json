@@ -1,0 +1,120 @@
+{
+    "RandomForest": {
+        "n_estimators": [100, 200, 300, 400, 500, 600, 700, 800],
+        "max_depth": [5, 10, 15, 20, 25, null],
+        "min_samples_split": [2, 5, 10],
+        "min_samples_leaf": [1, 2, 4],
+        "bootstrap": [true, false]
+    },
+    "DecisionTree": {
+        "max_depth": [1, 5, 10, 15, 20, 25, 30, null],
+        "min_samples_split": [2, 5, 10],
+        "min_samples_leaf": [1, 2, 4],
+        "criterion": ["gini", "entropy", "log_loss"]
+    },
+    "LogisticRegression": [
+        {
+            "penalty": {
+                "type": "categorical",
+                "choices": ["l1", "l2"]
+            },
+            "C": {
+                "type": "float",
+                "low": 0.01,
+                "high": 100,
+                "log": true
+            },
+            "solver": {
+                "type": "categorical",
+                "choices": ["saga"]
+            },
+            "max_iter": {
+                "type": "int",
+                "low": 1000,
+                "high": 10000,
+                "step": 1000
+            }
+        },
+        {
+            "penalty": {
+                "type": "categorical",
+                "choices": ["elasticnet"]
+            },
+            "C": {
+                "type": "float",
+                "low": 0.01,
+                "high": 100,
+                "log": true
+            },
+            "solver": {
+                "type": "categorical",
+                "choices": ["saga"]
+            },
+            "l1_ratio": {
+                "type": "float",
+                "low": 0,
+                "high": 1,
+                "step": null,
+                "log": false
+            },
+            "max_iter": {
+                "type": "int",
+                "low": 1000,
+                "high": 10000,
+                "step": 1000
+            }
+        }
+    ],
+    "MLPClassifier": {
+        "hidden_layer_sizes": {
+            "type": "categorical",
+            "choices": [[50], [100], [150], [100, 50]]
+        },
+        "activation": {
+            "type": "categorical",
+            "choices": ["identity", "logistic", "tanh", "relu"]
+        },
+        "solver": {
+            "type": "categorical",
+            "choices": ["lbfgs", "sgd", "adam"]
+        },
+        "alpha": {
+            "type": "float",
+            "low": 0.00001,
+            "high": 0.01,
+            "log": true
+        },
+        "learning_rate": {
+            "type": "categorical",
+            "choices": ["constant", "invscaling", "adaptive"]
+        },
+        "learning_rate_init": {
+            "type": "float",
+            "low": 0.0001,
+            "high": 0.01,
+            "log": true
+        }
+    },
+    "SVC": {
+        "C": {
+            "type": "float",
+            "low": 0.001,
+            "high": 1000,
+            "log": true
+        },
+        "kernel": {
+            "type": "categorical",
+            "choices": ["linear", "rbf", "poly", "sigmoid"]
+        },
+        "gamma": {
+            "type": "categorical",
+            "choices": ["scale", "auto"]
+        },
+        "degree": {
+            "type": "int",
+            "low": 2,
+            "high": 5,
+            "step": 1
+        }
+    }
+}

@@ -1,0 +1,10 @@
+[
+    {
+        "name": "adult",
+        "processing_stage":"scaled",
+        "label_name": "income",
+        "negative_label": "<=50K",
+        "sensitive_attribute": "gender",
+        "protected_value": "Female"
+    }
+]

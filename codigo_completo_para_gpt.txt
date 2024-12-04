@@ -1,0 +1,1618 @@
+config_visual.json:
+
+{
+    "visualization": {
+        "dataset":"adult",
+        "plots":[
+            {
+            "flip_method":"Min",
+            "estimator_model":"RandomForest",
+            "classification_model":"RandomForest"
+            }
+        ],
+        "thresholds": [0.00, 0.05, 0.10, 0.15, 0.20],
+        "save_plots": true,
+        "plots_directory": "plots/"
+    }
+}
+
+
+
+
+
+
+config_datasets.json:
+
+[
+    {
+        "name": "bank",
+        "processing_stage":"scaled",
+        "label_name": "y",
+        "negative_label": "no",
+        "sensitive_attribute": "marital",
+        "protected_value": "single"
+    },
+    {
+        "name": "adult",
+        "processing_stage":"scaled",
+        "label_name": "income",
+        "negative_label": "<=50K",
+        "sensitive_attribute": "gender",
+        "protected_value": "Female"
+    },
+    {
+        "name": "compas",
+        "processing_stage":"encoded",
+        "label_name": "Two_yr_Recidivism",
+        "negative_label": 1,
+        "sensitive_attribute": "African_American",
+        "protected_value": 1
+    }
+]
+
+
+
+
+
+
+config_general.json:
+
+{
+    "dataset": {
+        "name": "",
+        "extension": "csv",
+        "processing_stage":"",
+        "label_name": "",
+        "negative_label": "",
+        "sensitive_attribute": "",
+        "protected_value": "",
+        "test_size": 0.2,
+        "random_state": 1
+    },
+    "models": {
+        "estimator_model": "",
+        "flip_method": "",
+        "thresholds": [0.00, 0.05, 0.10, 0.15, 0.20],
+        "classification_model": "",
+        "tune_hyperparameters": "Sim",
+        "hyperparameter_tuning": {
+            "num_trials": 10,
+            "optimization_metric": "matthews_corrcoef"
+        }
+    }
+}
+
+
+
+
+
+
+config_hyperparameters.json:
+
+{
+    "RandomForest": {
+        "n_estimators": [100, 200, 300, 400, 500, 600, 700, 800],
+        "max_depth": [5, 10, 15, 20, 25, null],
+        "min_samples_split": [2, 5, 10],
+        "min_samples_leaf": [1, 2, 4],
+        "bootstrap": [true, false]
+    },
+    "DecisionTree": {
+        "max_depth": [1, 5, 10, 15, 20, 25, 30, null],
+        "min_samples_split": [2, 5, 10],
+        "min_samples_leaf": [1, 2, 4],
+        "criterion": ["gini", "entropy", "log_loss"]
+    },
+    "LogisticRegression": [
+        {
+            "penalty": {
+                "type": "categorical",
+                "choices": ["l1", "l2"]
+            },
+            "C": {
+                "type": "float",
+                "low": 0.01,
+                "high": 100,
+                "log": true
+            },
+            "solver": {
+                "type": "categorical",
+                "choices": ["saga"]
+            },
+            "max_iter": {
+                "type": "int",
+                "low": 1000,
+                "high": 10000,
+                "step": 1000
+            }
+        },
+        {
+            "penalty": {
+                "type": "categorical",
+                "choices": ["elasticnet"]
+            },
+            "C": {
+                "type": "float",
+                "low": 0.01,
+                "high": 100,
+                "log": true
+            },
+            "solver": {
+                "type": "categorical",
+                "choices": ["saga"]
+            },
+            "l1_ratio": {
+                "type": "float",
+                "low": 0,
+                "high": 1,
+                "step": null,
+                "log": false
+            },
+            "max_iter": {
+                "type": "int",
+                "low": 1000,
+                "high": 10000,
+                "step": 1000
+            }
+        }
+    ],
+    "MLPClassifier": {
+        "hidden_layer_sizes": {
+            "type": "categorical",
+            "choices": [[50], [100], [150], [100, 50]]
+        },
+        "activation": {
+            "type": "categorical",
+            "choices": ["identity", "logistic", "tanh", "relu"]
+        },
+        "solver": {
+            "type": "categorical",
+            "choices": ["lbfgs", "sgd", "adam"]
+        },
+        "alpha": {
+            "type": "float",
+            "low": 0.00001,
+            "high": 0.01,
+            "log": true
+        },
+        "learning_rate": {
+            "type": "categorical",
+            "choices": ["constant", "invscaling", "adaptive"]
+        },
+        "learning_rate_init": {
+            "type": "float",
+            "low": 0.0001,
+            "high": 0.01,
+            "log": true
+        }
+    },
+    "SVC": {
+        "C": {
+            "type": "float",
+            "low": 0.001,
+            "high": 1000,
+            "log": true
+        },
+        "kernel": {
+            "type": "categorical",
+            "choices": ["linear", "rbf", "poly", "sigmoid"]
+        },
+        "gamma": {
+            "type": "categorical",
+            "choices": ["scale", "auto"]
+        },
+        "degree": {
+            "type": "int",
+            "low": 2,
+            "high": 5,
+            "step": 1
+        }
+    }
+}
+
+
+
+
+
+
+config_log.json:
+
+{
+    "logging": {
+        "log_level": "INFO",
+        "log_file": "logs/app.log"
+    }
+}
+
+
+
+
+
+
+config_models_flips.json:
+
+[
+    {
+        "flip_method": "Min",
+        "estimator_model":"RandomForest",
+        "classification_model":"RandomForest"
+    },
+    {
+        "flip_method": "Max",
+        "estimator_model":"RandomForest",
+        "classification_model":"RandomForest"
+    },
+    {
+        "flip_method": "Random",
+        "estimator_model":"RandomForest",
+        "classification_model":"RandomForest"
+    },
+    {
+        "flip_method": "Min",
+        "estimator_model":"RandomForest",
+        "classification_model":"LogisticRegression"
+    },
+    {
+        "flip_method": "Max",
+        "estimator_model":"RandomForest",
+        "classification_model":"LogisticRegression"
+    },
+    {
+        "flip_method": "Random",
+        "estimator_model":"RandomForest",
+        "classification_model":"LogisticRegression"
+    },
+    {
+        "flip_method": "Min",
+        "estimator_model":"RandomForest",
+        "classification_model":"DecisionTree"
+    },
+    {
+        "flip_method": "Max",
+        "estimator_model":"RandomForest",
+        "classification_model":"DecisionTree"
+    },
+    {
+        "flip_method": "Random",
+        "estimator_model":"RandomForest",
+        "classification_model":"DecisionTree"
+    },
+    {
+        "flip_method": "Min",
+        "estimator_model":"RandomForest",
+        "classification_model":"MLPClassifier"
+    },
+    {
+        "flip_method": "Max",
+        "estimator_model":"RandomForest",
+        "classification_model":"MLPClassifier"
+    },
+    {
+        "flip_method": "Random",
+        "estimator_model":"RandomForest",
+        "classification_model":"MLPClassifier"
+    }
+]
+
+
+
+
+
+
+# main.py
+
+import argparse
+import json
+import logging
+import sys
+import os
+import copy
+
+from data_processor import DataProcessor
+from model_trainer import ModelTrainer
+from evaluator import Evaluator
+from visualizer import Visualizer
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
+parser = argparse.ArgumentParser(description="Fairness in Machine Learning Models")
+parser.add_argument('--generate_plots', action='store_true', help='Generate plots from existing results')
+args = parser.parse_args()
+
+with open(os.path.join(script_dir,"config_log.json"), 'r') as config_file:
+    config_log = json.load(config_file)
+
+with open(os.path.join(script_dir,"config_general.json"), 'r') as config_file:
+    config_general = json.load(config_file)
+
+with open(os.path.join(script_dir,"config_datasets.json"), 'r') as config_file:
+    config_datasets = json.load(config_file)
+
+with open(os.path.join(script_dir,"config_models_flips.json"), 'r') as config_file:
+    config_models_flips = json.load(config_file)
+
+configs = []
+
+for data_dict in config_datasets:
+    for model_dict in config_models_flips:
+        conf = copy.deepcopy(config_general)
+        conf['dataset'].update(data_dict)
+        conf['models'].update(model_dict)
+        configs.append(conf)
+
+
+def setup_logging(log_level, log_file):
+
+    log_dir = os.path.dirname(log_file)
+    os.makedirs(log_dir, exist_ok=True)
+
+    numeric_level = getattr(logging, log_level.upper(), None)
+    logging.basicConfig(
+        level=numeric_level,
+        format='%(asctime)s [%(levelname)s] %(message)s',
+        handlers=[
+            logging.FileHandler(log_file),
+            logging.StreamHandler(sys.stdout)
+        ]
+    )
+
+def main(
+    configs=configs,
+    generate_plots = args.generate_plots
+    ):
+
+    setup_logging(config_log['logging']['log_level'], config_log['logging']['log_file'])
+    logging.info("Program started")
+
+    if generate_plots:
+        with open(os.path.join(script_dir,"config_visual.json"), 'r') as config_file:
+            config_visual = json.load(config_file)
+
+        visualizer = Visualizer(config_visual)
+        visualizer.load_evaluation_results()
+        visualizer.plot_confusion_matrix_rates()
+        visualizer.plot_metrics()
+        logging.info("Plots generated successfully")
+
+    else:
+
+        for config in configs:
+
+            data_processor = DataProcessor(config)
+            data_processor.load_original_data()
+            data_processor.encode_data()
+            data_processor.scale_data()
+            data_processor.split_data()
+
+            model_trainer = ModelTrainer(config)
+            evaluator = Evaluator(config)
+
+            data_processor.set_unfairness_parameters()
+            if config['models']['flip_method'] in ['Min','Max']:
+                data_processor.train_estimator()
+            for threshold in config['models']['thresholds']:
+                unfair_train_data = data_processor.introduce_unfairness(
+                    threshold,
+                    method=config['models']['flip_method']
+                    )
+
+                classification_model = model_trainer.train_model(
+                    train_data=unfair_train_data,
+                    model_name=config['models']['classification_model'],
+                    model_identifier='classifier',
+                    tune_hyperparameters=config['models']['tune_hyperparameters'],
+                    optimization_metric=config['models']['hyperparameter_tuning']['optimization_metric'],
+                    flip_method=f'_{config['models']['flip_method']}',
+                    threshold=f'_{str(threshold)}'
+                )
+
+                evaluator.evaluate_model(
+                    model=classification_model,
+                    X_test=data_processor.X_test,
+                    y_test=data_processor.y_test,
+                    sensitive_test=data_processor.sensitive_test,
+                    threshold=threshold
+                )
+            evaluator.save_evaluation_results()
+
+if __name__ == '__main__':
+
+    main(
+        generate_plots=True
+        )
+
+
+
+
+
+
+# data_processor.py
+
+import os
+import pandas as pd
+import numpy as np
+import logging
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder, MinMaxScaler
+from sklearn.model_selection import train_test_split
+from model_trainer import ModelTrainer
+
+class DataProcessor:
+
+    def __init__(self, config):
+
+
+        self.config = config
+        self.original_dataset = None
+        self.X_train = None
+        self.y_train = None
+
+        self.protected_encoded_value = 0
+        self.privileged_encoded_value = 1
+        self.negative_encoded_value = 0
+        self.positive_encoded_value = 1
+
+        self.dataset_path = os.path.join(
+            'datasets',
+            self.config['dataset']['name'],
+            f'{self.config['dataset']['name']}.{self.config['dataset']['extension']}'
+            )
+
+    def load_original_data(self):
+
+        try:
+            self.original_dataset = pd.read_csv(self.dataset_path)
+            logging.info(f"Dataset loaded successfully from {self.dataset_path}")
+        except FileNotFoundError:
+            logging.error(f"Dataset file not found at {self.dataset_path}")
+            raise
+        except Exception as e:
+            logging.error(f"Error loading dataset: {e}")
+            raise
+
+        if self.config['dataset']['name'] == "bank":
+            self.original_dataset['day'] = self.original_dataset['day'].astype(str)
+            self.original_dataset['previous_contact'] = self.original_dataset['pdays'].apply(lambda x: 0 if x == -1 else 1)
+            self.original_dataset['pdays'] = self.original_dataset['pdays'].apply(lambda x: 0 if x == -1 else x)
+        if self.config['dataset']['name'] == 'adult':
+            self.original_dataset.drop(columns=['educational-num'],inplace=True)
+
+    def encode_data(self):
+
+        if os.path.exists(os.path.join(
+            os.path.dirname(self.dataset_path),
+            f'encoded_{os.path.basename(self.dataset_path)}'
+            )):
+            logging.info("This dataset is already encoded")
+
+        else:
+
+            if self.original_dataset is None:
+                logging.error("Dataset not loaded. Call load_data() first.")
+                raise ValueError("Dataset not loaded.")
+
+            df = self.original_dataset.copy()
+            config = self.config['dataset']
+
+            label_name = config['label_name']
+            negative_label = config['negative_label']
+            positive_label = (set(df[label_name].unique()) - {negative_label}).pop()
+
+            sensitive_attr = config['sensitive_attribute']
+            protected_value = config['protected_value']
+            privileged_value = (set(df[sensitive_attr].unique()) - {protected_value}).pop()
+
+            self.label_mapping = {
+                negative_label: self.negative_encoded_value,
+                positive_label: self.positive_encoded_value
+            }
+
+            self.sensitive_mapping = {
+                protected_value: self.protected_encoded_value,
+                privileged_value: self.privileged_encoded_value
+            }
+
+            if self.config['dataset']['name'] == "bank":
+                self.sensitive_mapping['divorced'] = 0
+
+            df[label_name] = df[label_name].map(self.label_mapping)
+            df[sensitive_attr] = df[sensitive_attr].map(self.sensitive_mapping)
+
+            if self.config['dataset']['name'] == "compas":
+                df.to_csv(os.path.join(
+                    os.path.dirname(self.dataset_path),
+                    f'encoded_{os.path.basename(self.dataset_path)}'
+                    ),index=False)
+                return
+
+            categorical_cols = df.select_dtypes(include=['object']).columns.tolist()
+
+            le = LabelEncoder()
+            for col in categorical_cols:
+                if df[col].nunique() == 2:
+                    df[col] = le.fit_transform(df[col])
+
+            one_hot_encoder = OneHotEncoder(sparse_output=False,drop='first')
+            one_hot_categorical_cols = [col for col in categorical_cols if df[col].nunique() > 2]
+            encoded_data = one_hot_encoder.fit_transform(df[one_hot_categorical_cols])
+            encoded_col_names = one_hot_encoder.get_feature_names_out(one_hot_categorical_cols)
+            encoded_df = pd.DataFrame(encoded_data, columns=encoded_col_names, index=df.index)
+            df = df.drop(columns=one_hot_categorical_cols).join(encoded_df)
+
+            df.to_csv(os.path.join(
+                os.path.dirname(self.dataset_path),
+                f'encoded_{os.path.basename(self.dataset_path)}'
+                ),index=False)
+
+            logging.info("Data encoding completed.")
+
+    def scale_data(self):
+
+        if self.config['dataset']['name'] == "compas": return
+
+        if os.path.exists(os.path.join(
+            os.path.dirname(self.dataset_path),
+            f'scaled_{os.path.basename(self.dataset_path)}'
+            )):
+            logging.info("This dataset is already encoded and scaled")
+
+        else:
+
+            df = pd.read_csv(os.path.join(
+                os.path.dirname(self.dataset_path),
+                f'encoded_{os.path.basename(self.dataset_path)}'
+                ))
+
+            if df is None:
+                logging.error("Data not encoded. Call encode_data() first.")
+                raise ValueError("Data not encoded.")
+
+            numerical_cols = self.original_dataset.select_dtypes(include=[np.number]).columns.tolist()
+
+            if self.config['dataset']['name'] == "bank":
+                numerical_cols.remove('previous_contact')
+
+            scaler = MinMaxScaler()
+            df[numerical_cols] = scaler.fit_transform(df[numerical_cols])
+
+            df.to_csv(os.path.join(
+                os.path.dirname(self.dataset_path),
+                f'scaled_{os.path.basename(self.dataset_path)}'
+                ),index=False)
+
+            logging.info("Data scaling completed, excluding one-hot encoded columns.")
+
+    def split_data(self):
+
+        config = self.config['dataset']
+
+        df = pd.read_csv(os.path.join(
+            os.path.dirname(self.dataset_path),
+            f"{config['processing_stage']}_{os.path.basename(self.dataset_path)}"
+            ))
+
+        if df is None:
+            logging.error("Data not scaled. Call scale_data() first.")
+            raise ValueError("Data not scaled.")
+
+        label_name = config['label_name']
+        sensitive_attr = config['sensitive_attribute']
+        test_size = config['test_size']
+        random_state = config['random_state']
+
+        X = df.drop(columns=[label_name])
+        y = df[label_name]
+        sensitive = X[sensitive_attr]
+
+        stratify_col = pd.Series(list(zip(y, sensitive)))
+
+        self.X_train, self.X_test, self.y_train, self.y_test, self.sensitive_train, self.sensitive_test = train_test_split(
+            X, y, sensitive, test_size=test_size, random_state=random_state, stratify=stratify_col
+        )
+
+        logging.info("Data splitting completed.")
+
+    def set_unfairness_parameters(self):
+
+        if self.X_train is None or self.y_train is None:
+            logging.error("Data not split. Call split_data() first.")
+            raise ValueError("Data not split.")
+
+        train_df = self.X_train.copy()
+        train_df[self.config['dataset']['label_name']] = self.y_train.copy()
+
+        self.condition = (
+            ((train_df[self.config['dataset']['sensitive_attribute']] == self.protected_encoded_value) &
+            (train_df[self.config['dataset']['label_name']] == self.positive_encoded_value)) |
+            ((train_df[self.config['dataset']['sensitive_attribute']] == self.privileged_encoded_value) &
+            (train_df[self.config['dataset']['label_name']] == self.negative_encoded_value))
+        )
+
+        self.indices_to_flip = train_df[self.condition].index
+
+    def train_estimator(self):
+
+        model_trainer = ModelTrainer(self.config)
+        train_data = (self.X_train, self.y_train)
+
+        estimator_model = model_trainer.train_model(
+            train_data=train_data,
+            model_name=self.config['models']['estimator_model'],
+            model_identifier='estimator',
+            tune_hyperparameters=self.config['models']['tune_hyperparameters'],
+            optimization_metric=self.config['models']['hyperparameter_tuning']['optimization_metric']
+        )
+
+        probabilities = estimator_model.predict_proba(self.X_train)[:, 1]
+        condition_probabilities = probabilities[self.condition]
+        confidence_scores = np.abs(condition_probabilities - 0.5)
+        self.sorted_indices = self.indices_to_flip[np.argsort(confidence_scores)]
+
+    def introduce_unfairness(self, threshold, method):
+
+        unfair_train_data = self.y_train.copy()
+
+        num_to_flip = int(len(self.indices_to_flip) * threshold)
+
+        if method == 'Random':
+            indices_flipped = np.random.choice(self.indices_to_flip, size=num_to_flip, replace=False)
+        elif method == 'Max':
+            num_to_flip = int(threshold * len(self.indices_to_flip))
+            if num_to_flip > 0:
+                indices_flipped = self.sorted_indices[-num_to_flip:]
+            else:
+                indices_flipped = pd.Index([], dtype=self.sorted_indices.dtype)
+            self.indices_flipped = indices_flipped
+        elif method == 'Min':
+            indices_flipped = self.sorted_indices[:num_to_flip]
+        else:
+            logging.error(f"Unknown flip method: {method}")
+            raise ValueError(f"Unknown flip method: {method}")
+
+        unfair_train_data.loc[indices_flipped] = 1 - unfair_train_data.loc[indices_flipped]
+
+        self.y_unfair_train = unfair_train_data
+        unfair_train_data = (self.X_train, self.y_unfair_train)
+
+        logging.info(f"Unfairness introduced with threshold {threshold} using method {method}.")
+
+        return unfair_train_data
+
+
+
+
+
+
+# model_trainer.py
+
+import os
+import json
+import logging
+import joblib
+import optuna
+from optuna.samplers import TPESampler
+from sklearn.model_selection import cross_val_score, RandomizedSearchCV
+from sklearn.metrics import make_scorer, accuracy_score, f1_score, matthews_corrcoef
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.neural_network import MLPClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
+from sklearn.naive_bayes import GaussianNB
+
+class ModelTrainer:
+
+    def __init__(self, config):
+
+        self.config = config
+        models_directory = "models"
+        os.makedirs(models_directory, exist_ok=True)
+        dataset_dir = self.config["dataset"]["name"]
+        estim_dir = self.config["models"]["estimator_model"]
+        self.model_data_estim_dir = os.path.join(
+            models_directory,
+            dataset_dir,
+            estim_dir
+        )
+        os.makedirs(self.model_data_estim_dir, exist_ok=True)
+
+        hyperparams_path = self.config.get('models', {}).get('hyperparameters_path', 'config_hyperparameters.json')
+        if not os.path.isfile(hyperparams_path):
+            logging.error(f"Hyperparameters file not found at {hyperparams_path}")
+            raise FileNotFoundError(f"Hyperparameters file not found at {hyperparams_path}")
+
+        with open(hyperparams_path, 'r') as f:
+            self.hyperparameters = json.load(f)
+
+    def train_model(self,
+                    train_data,
+                    model_name,
+                    model_identifier,
+                    tune_hyperparameters,
+                    optimization_metric,
+                    flip_method='',
+                    threshold=''
+                    ):
+
+        X_train, y_train = train_data
+
+        model_filename = os.path.join(
+            self.model_data_estim_dir,
+            f"{model_name}_{model_identifier}{flip_method}{threshold}.joblib"
+        )
+        if os.path.isfile(model_filename):
+            model = joblib.load(model_filename)
+            logging.info(f"Loaded existing {model_identifier} model from {model_filename}")
+            return model
+
+        if tune_hyperparameters:
+            model = self.tune_hyperparameters(X_train, y_train, model_name, optimization_metric)
+        else:
+            model = self.initialize_model(model_name)
+            model.fit(X_train, y_train)
+            logging.info(f"Model {model_name} trained without hyperparameter tuning.")
+
+        joblib.dump(model, model_filename)
+        logging.info(f"Model saved to {model_filename}")
+
+        return model
+
+    def initialize_model(self, model_name):
+
+        if model_name == "RandomForest":
+            return RandomForestClassifier()
+        elif model_name == "MLPClassifier":
+            return MLPClassifier(max_iter=500)
+        elif model_name == "DecisionTree":
+            return DecisionTreeClassifier()
+        elif model_name == "LogisticRegression":
+            return LogisticRegression(max_iter=1000, solver='saga')
+        elif model_name == "SVC":
+            return SVC(probability=True)
+        elif model_name == "GaussianNB":
+            return GaussianNB()
+        else:
+            logging.error(f"Model '{model_name}' is not supported.")
+            raise ValueError(f"Model '{model_name}' is not supported.")
+
+    def tune_hyperparameters(self, X_train, y_train, model_name, optimization_metric):
+
+        num_trials = self.config['models']['hyperparameter_tuning']['num_trials']
+        scorer = self.get_scorer(optimization_metric)
+
+        if model_name in ["RandomForest", "DecisionTree", "LogisticRegression"]:
+            param_distributions = self.get_param_distributions(model_name)
+            model = self.initialize_model(model_name)
+            search = RandomizedSearchCV(
+                model,
+                param_distributions=param_distributions,
+                n_iter=num_trials,
+                scoring=scorer,
+                cv=5,
+                n_jobs=-1,
+                # random_state=42
+            )
+            search.fit(X_train, y_train)
+            logging.info(f"Best hyperparameters for {model_name}: {search.best_params_}")
+            best_model = search.best_estimator_
+            return best_model
+        elif model_name in ["MLPClassifier", "SVC"]:
+            def objective(trial):
+                model = self.initialize_model_with_trial(trial, model_name)
+                score = cross_val_score(model, X_train, y_train, cv=5, scoring=scorer, n_jobs=-1)
+                return score.mean()
+
+            sampler = TPESampler(
+                # seed=42
+                )
+            study = optuna.create_study(direction='maximize', sampler=sampler)
+            study.optimize(objective, n_trials=num_trials)
+
+            logging.info(f"Best hyperparameters for {model_name}: {study.best_params}")
+
+            best_model = self.initialize_model_with_params(model_name, study.best_params)
+            best_model.fit(X_train, y_train)
+
+            return best_model
+        elif model_name == "GaussianNB":
+            logging.info(f"No hyperparameters to tune for {model_name}. Training default model.")
+            model = self.initialize_model(model_name)
+            model.fit(X_train, y_train)
+            return model
+        else:
+            logging.error(f"Unsupported model for hyperparameter tuning: {model_name}")
+            raise ValueError(f"Unsupported model for hyperparameter tuning: {model_name}")
+
+    def get_param_distributions(self, model_name):
+
+        if model_name in self.hyperparameters:
+            param_dist = self.hyperparameters[model_name]
+            if isinstance(param_dist, list):
+                return param_dist
+            else:
+                return param_dist
+        else:
+            logging.error(f"Hyperparameters for model '{model_name}' are not defined in config_hyperparameters.json.")
+            raise ValueError(f"Hyperparameters for model '{model_name}' are not defined.")
+
+    def initialize_model_with_trial(self, trial, model_name):
+
+        if model_name in self.hyperparameters:
+            params_config = self.hyperparameters[model_name]
+            params = {}
+            for param_name, param_options in params_config.items():
+                param_type = param_options['type']
+                if param_type == 'int':
+                    params[param_name] = trial.suggest_int(
+                        param_name,
+                        param_options['low'],
+                        param_options['high'],
+                        step=param_options.get('step', 1)
+                    )
+                elif param_type == 'float':
+                    params[param_name] = trial.suggest_float(
+                        param_name,
+                        param_options['low'],
+                        param_options['high'],
+                        step=param_options.get('step', None),
+                        log=param_options.get('log', False)
+                    )
+                elif param_type == 'categorical':
+                    params[param_name] = trial.suggest_categorical(
+                        param_name,
+                        param_options['choices']
+                    )
+                else:
+                    logging.error(f"Unsupported parameter type '{param_type}' for {param_name}.")
+                    raise ValueError(f"Unsupported parameter type '{param_type}' for {param_name}.")
+            return self.initialize_model_with_params(model_name, params)
+        else:
+            logging.error(f"Hyperparameters for model '{model_name}' are not defined in config_hyperparameters.json.")
+            raise ValueError(f"Hyperparameters for model '{model_name}' are not defined.")
+
+    def initialize_model_with_params(self, model_name, params):
+
+        if model_name == "MLPClassifier":
+            params.setdefault('max_iter', 500)
+            return MLPClassifier(**params)
+        elif model_name == "SVC":
+            params.setdefault('probability', True)
+            return SVC(**params)
+        elif model_name == "LogisticRegression":
+            params.setdefault('solver', 'saga')
+            params.setdefault('max_iter', 1000)
+            return LogisticRegression(**params)
+        elif model_name == "RandomForest":
+            return RandomForestClassifier(**params)
+        elif model_name == "DecisionTree":
+            return DecisionTreeClassifier(**params)
+        else:
+            logging.error(f"Model '{model_name}' is not supported for initialization with parameters.")
+            raise ValueError(f"Model '{model_name}' is not supported for initialization with parameters.")
+
+    def get_scorer(self, optimization_metric):
+
+        if optimization_metric == 'accuracy':
+            return make_scorer(accuracy_score)
+        elif optimization_metric == 'f1_score':
+            return make_scorer(f1_score)
+        elif optimization_metric == 'matthews_corrcoef':
+            return make_scorer(matthews_corrcoef)
+        else:
+            logging.error(f"Unsupported optimization metric: {optimization_metric}")
+            raise ValueError(f"Unsupported optimization metric: {optimization_metric}")
+
+
+
+
+
+
+# evaluator.py
+
+import os
+import logging
+import pandas as pd
+from sklearn.metrics import (
+    accuracy_score,
+    f1_score,
+    matthews_corrcoef,
+    confusion_matrix,
+    roc_auc_score)
+
+class Evaluator:
+
+    def __init__(self, config):
+
+        self.config = config
+        self.results_directory = "results/"
+        os.makedirs(self.results_directory, exist_ok=True)
+        self.evaluation_results = []
+
+        self.protected_encoded_value = 0
+        self.privileged_encoded_value = 1
+        self.negative_encoded_value = 0
+        self.positive_encoded_value = 1
+
+    def evaluate_model(self, model, X_test, y_test, sensitive_test, threshold):
+
+        y_pred = model.predict(X_test)
+
+        accuracy = accuracy_score(y_test, y_pred)
+        f1 = f1_score(y_test, y_pred)
+        mcc = matthews_corrcoef(y_test, y_pred)
+        roc_auc = roc_auc_score(y_test, model.predict_proba(X_test)[:, 1])
+
+        metrics = self.compute_fairness_metrics(y_test, y_pred, sensitive_test)
+
+        cm = confusion_matrix(y_test, y_pred)
+        cm_privileged = confusion_matrix(
+            y_test[sensitive_test == self.privileged_encoded_value],
+            y_pred[sensitive_test == self.privileged_encoded_value]
+        )
+        cm_protected = confusion_matrix(
+            y_test[sensitive_test == self.protected_encoded_value],
+            y_pred[sensitive_test == self.protected_encoded_value]
+        )
+
+        tn, fp, fn, tp = cm.ravel()
+        full_tnr = tn / (tn + fp) if (tn + fp) > 0 else 0.0
+        full_fpr = fp / (tn + fp) if (tn + fp) > 0 else 0.0
+        full_fnr = fn / (fn + tp) if (fn + tp) > 0 else 0.0
+        full_tpr = tp / (fn + tp) if (fn + tp) > 0 else 0.0
+
+        tn_p, fp_p, fn_p, tp_p = cm_privileged.ravel()
+        priv_tnr = tn_p / (tn_p + fp_p) if (tn_p + fp_p) > 0 else 0.0
+        priv_fpr = fp_p / (tn_p + fp_p) if (tn_p + fp_p) > 0 else 0.0
+        priv_fnr = fn_p / (fn_p + tp_p) if (fn_p + tp_p) > 0 else 0.0
+        priv_tpr = tp_p / (fn_p + tp_p) if (fn_p + tp_p) > 0 else 0.0
+
+        tn_pr, fp_pr, fn_pr, tp_pr = cm_protected.ravel()
+        prot_tnr = tn_pr / (tn_pr + fp_pr) if (tn_pr + fp_pr) > 0 else 0.0
+        prot_fpr = fp_pr / (tn_pr + fp_pr) if (tn_pr + fp_pr) > 0 else 0.0
+        prot_fnr = fn_pr / (fn_pr + tp_pr) if (fn_pr + tp_pr) > 0 else 0.0
+        prot_tpr = tp_pr / (fn_pr + tp_pr) if (fn_pr + tp_pr) > 0 else 0.0
+
+        evaluation_metrics = {
+            'dataset': self.config['dataset']['name'],
+            'processing_stage': self.config['dataset']['processing_stage'],
+            'estimator_model': self.config['models']['estimator_model'],
+            'classification_model': self.config['models']['classification_model'],
+            'tune_hyperparameters': str(self.config['models']['tune_hyperparameters']),
+            'num_trials': self.config['models']['hyperparameter_tuning']['num_trials'],
+            'optimization_metric': self.config['models']['hyperparameter_tuning']['optimization_metric'],
+            'flip_method': self.config['models']['flip_method'],
+            'Threshold': threshold,
+            'Accuracy': accuracy,
+            'F1 Score': f1,
+            'Matthews Correlation Coefficient': mcc,
+            'ROC AUC Score': roc_auc,
+            **metrics,
+            'Full True Negative Rate': full_tnr,
+            'Full False Positive Rate': full_fpr,
+            'Full False Negative Rate': full_fnr,
+            'Full True Positive Rate': full_tpr,
+            'Priv True Negative Rate': priv_tnr,
+            'Priv False Positive Rate': priv_fpr,
+            'Priv False Negative Rate': priv_fnr,
+            'Priv True Positive Rate': priv_tpr,
+            'Prot True Negative Rate': prot_tnr,
+            'Prot False Positive Rate': prot_fpr,
+            'Prot False Negative Rate': prot_fnr,
+            'Prot True Positive Rate': prot_tpr
+        }
+
+        self.evaluation_results.append(evaluation_metrics)
+        logging.info(f"Evaluation completed for threshold {threshold}.")
+
+    def compute_fairness_metrics(self, y_true, y_pred, sensitive_attr):
+
+        protected_mask = sensitive_attr == self.protected_encoded_value
+        privileged_mask = sensitive_attr == self.privileged_encoded_value
+
+        p_protected = y_pred[protected_mask].mean()
+        p_privileged = y_pred[privileged_mask].mean()
+        statistical_parity = abs(p_protected - p_privileged)
+
+        tpr_protected = self.true_positive_rate(y_true[protected_mask], y_pred[protected_mask])
+        tpr_privileged = self.true_positive_rate(y_true[privileged_mask], y_pred[privileged_mask])
+        equal_opportunity = abs(tpr_protected - tpr_privileged)
+
+        fpr_protected = self.false_positive_rate(y_true[protected_mask], y_pred[protected_mask])
+        fpr_privileged = self.false_positive_rate(y_true[privileged_mask], y_pred[privileged_mask])
+        equalized_odds = 0.5 * (abs(tpr_protected - tpr_privileged) + abs(fpr_protected - fpr_privileged))
+
+        fairness_metrics = {
+            'Statistical Parity Difference': statistical_parity,
+            'Equal Opportunity Difference': equal_opportunity,
+            'Equalized Odds Difference': equalized_odds
+        }
+
+        return fairness_metrics
+
+    def true_positive_rate(self, y_true, y_pred):
+
+        tp = ((y_true == self.positive_encoded_value) & (y_pred == self.positive_encoded_value)).sum()
+        fn = ((y_true == self.positive_encoded_value) & (y_pred == self.negative_encoded_value)).sum()
+        if tp + fn == 0:
+            return 0.0
+        return tp / (tp + fn)
+
+    def false_positive_rate(self, y_true, y_pred):
+
+        fp = ((y_true == self.negative_encoded_value) & (y_pred == self.positive_encoded_value)).sum()
+        tn = ((y_true == self.negative_encoded_value) & (y_pred == self.negative_encoded_value)).sum()
+        if fp + tn == 0:
+            return 0.0
+        return fp / (fp + tn)
+
+    def save_evaluation_results(self):
+
+        results_df = pd.DataFrame(self.evaluation_results)
+        results_filename = os.path.join(self.results_directory, 'evaluation_results.xlsx')
+
+        match_columns = [
+            'dataset', 'processing_stage', 'estimator_model', 'classification_model',
+            'tune_hyperparameters', 'num_trials', 'optimization_metric', 'flip_method', 'Threshold'
+        ]
+
+        if os.path.isfile(results_filename):
+            existing_sheets = pd.read_excel(results_filename, sheet_name=None)
+        else:
+            existing_sheets = {}
+
+        if 'Results' in existing_sheets:
+            existing_results = existing_sheets['Results']
+            for _, new_row in results_df.iterrows():
+                mask = (existing_results[match_columns] == new_row[match_columns]).all(axis=1)
+                existing_results = existing_results[~mask]
+
+            combined_results = pd.concat([existing_results, results_df], ignore_index=True)
+        else:
+            combined_results = results_df
+
+        existing_sheets['Results'] = combined_results
+
+        all_results = combined_results
+
+        differences_list = []
+
+        id_columns = [
+            'dataset', 'processing_stage', 'estimator_model', 'classification_model',
+            'tune_hyperparameters', 'num_trials', 'optimization_metric', 'flip_method'
+        ]
+
+        unique_ids = all_results[id_columns].drop_duplicates()
+
+        for _, id_row in unique_ids.iterrows():
+
+            id_mask = (all_results[id_columns] == id_row).all(axis=1)
+            id_results = all_results[id_mask]
+
+            id_results['Threshold'] = id_results['Threshold'].astype(float)
+            id_results = id_results.sort_values('Threshold').reset_index(drop=True)
+
+            for i in range(1, len(id_results)):
+                prev_row = id_results.iloc[i - 1]
+                curr_row = id_results.iloc[i]
+
+                diff_metrics = id_row.copy()
+                prev_threshold = prev_row['Threshold']
+                curr_threshold = curr_row['Threshold']
+                diff_metrics['Threshold'] = f"{curr_threshold:.2f} - {prev_threshold:.2f}"
+
+                metric_columns = [
+                    'Accuracy', 'F1 Score', 'Matthews Correlation Coefficient', 'ROC AUC Score',
+                    'Statistical Parity Difference', 'Equal Opportunity Difference', 'Equalized Odds Difference',
+                    'Full True Negative Rate', 'Full False Positive Rate', 'Full False Negative Rate', 'Full True Positive Rate',
+                    'Priv True Negative Rate', 'Priv False Positive Rate', 'Priv False Negative Rate', 'Priv True Positive Rate',
+                    'Prot True Negative Rate', 'Prot False Positive Rate', 'Prot False Negative Rate', 'Prot True Positive Rate'
+                ]
+
+                for metric in metric_columns:
+                    diff_metrics[metric] = curr_row[metric] - prev_row[metric]
+
+                differences_list.append(diff_metrics)
+
+        if differences_list:
+            differences_df = pd.DataFrame(differences_list)
+        else:
+            differences_df = pd.DataFrame()
+
+        if 'Differences' in existing_sheets:
+            existing_differences = existing_sheets['Differences']
+            for _, diff_row in differences_df.iterrows():
+                mask = (
+                    (existing_differences[id_columns] == diff_row[id_columns]).all(axis=1) &
+                    (existing_differences['Threshold'] == diff_row['Threshold'])
+                )
+                existing_differences = existing_differences[~mask]
+
+            combined_differences = pd.concat([existing_differences, differences_df], ignore_index=True)
+        else:
+            combined_differences = differences_df
+
+        existing_sheets['Differences'] = combined_differences
+
+        if not combined_differences.empty:
+            cumulative_differences_df = combined_differences.copy()
+            id_columns_with_threshold = id_columns + ['Threshold']
+            cumulative_differences_df.sort_values(by=id_columns_with_threshold, inplace=True)
+
+            cumulative_differences_df['Current Threshold'] = cumulative_differences_df['Threshold'].apply(
+                lambda x: float(x.split(' - ')[0])
+            )
+
+            metric_columns = [
+                'Accuracy', 'F1 Score', 'Matthews Correlation Coefficient', 'ROC AUC Score',
+                'Statistical Parity Difference', 'Equal Opportunity Difference', 'Equalized Odds Difference',
+                'Full True Negative Rate', 'Full False Positive Rate', 'Full False Negative Rate', 'Full True Positive Rate',
+                'Priv True Negative Rate', 'Priv False Positive Rate', 'Priv False Negative Rate', 'Priv True Positive Rate',
+                'Prot True Negative Rate', 'Prot False Positive Rate', 'Prot False Negative Rate', 'Prot True Positive Rate'
+            ]
+
+            cumulative_differences_df[metric_columns] = cumulative_differences_df.groupby(id_columns)[metric_columns].cumsum()
+
+            if 'Cumulative Differences' in existing_sheets:
+                existing_cumulative = existing_sheets['Cumulative Differences']
+                for _, cum_row in cumulative_differences_df.iterrows():
+                    mask = (
+                        (existing_cumulative[id_columns] == cum_row[id_columns]).all(axis=1) &
+                        (existing_cumulative['Threshold'] == cum_row['Threshold'])
+                    )
+                    existing_cumulative = existing_cumulative[~mask]
+
+                combined_cumulative = pd.concat([existing_cumulative, cumulative_differences_df], ignore_index=True)
+            else:
+                combined_cumulative = cumulative_differences_df
+
+            existing_sheets['Cumulative Differences'] = combined_cumulative
+        else:
+            existing_sheets['Cumulative Differences'] = pd.DataFrame()
+
+        with pd.ExcelWriter(results_filename, engine='openpyxl', mode='w') as writer:
+            for sheet_name, df in existing_sheets.items():
+                df.to_excel(writer, index=False, sheet_name=sheet_name)
+
+        logging.info(f"Evaluation results saved to {results_filename}")
+
+
+
+
+
+
+# visualizer.py
+
+import os
+import logging
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.ticker import MaxNLocator
+
+class Visualizer:
+
+    def __init__(self, config_visual):
+
+        self.results_directory = "results/"
+        self.plots_directory = config_visual['visualization']['plots_directory']
+        os.makedirs(self.plots_directory, exist_ok=True)
+        self.results_df = None
+        self.differences_df = None
+        self.cumulative_differences_df = None
+        self.dataset = config_visual['visualization']['dataset']
+        self.plots_list = config_visual['visualization']['plots']
+        self.threshold_values = config_visual['visualization']['thresholds']
+        self.threshold_values = [float(t) for t in self.threshold_values]
+        self.id_columns = [
+            'dataset', 'processing_stage', 'estimator_model', 'classification_model',
+            'tune_hyperparameters', 'num_trials', 'optimization_metric', 'flip_method'
+        ]
+        self.multiple_lines = len(self.plots_list) > 1
+
+    def load_evaluation_results(self):
+
+        results_filename = os.path.join(self.results_directory, 'evaluation_results.xlsx')
+        if os.path.isfile(results_filename):
+            self.results_df = pd.read_excel(
+                results_filename,
+                sheet_name='Results')
+            logging.info(f"Evaluation results loaded from {results_filename}")
+
+            self.results_df['Threshold'] = self.results_df['Threshold'].astype(str)
+            self.results_df = self.results_df[~self.results_df['Threshold'].str.contains('-')]
+            self.results_df['Threshold'] = self.results_df['Threshold'].astype(float)
+
+            self.differences_df = pd.read_excel(
+                results_filename,
+                sheet_name='Differences')
+            logging.info(f"Differences data loaded from {results_filename}")
+
+            self.differences_df['Threshold'] = self.differences_df['Threshold'].astype(str)
+            self.differences_df[['Current Threshold', 'Previous Threshold']] = self.differences_df['Threshold'].str.extract(r'([0-9.]+)\s*-\s*([0-9.]+)').astype(float)
+
+            self.cumulative_differences_df = pd.read_excel(
+                results_filename,
+                sheet_name='Cumulative Differences')
+            logging.info(f"Cumulative differences data loaded from {results_filename}")
+
+            self.cumulative_differences_df['Threshold'] = self.cumulative_differences_df['Threshold'].astype(str)
+            self.cumulative_differences_df[['Current Threshold', 'Previous Threshold']] = self.cumulative_differences_df['Threshold'].str.extract(r'([0-9.]+)\s*-\s*([0-9.]+)').astype(float)
+
+        else:
+            logging.error(f"Results file not found at {results_filename}")
+            raise FileNotFoundError(f"Results file not found at {results_filename}")
+
+    def filter_results_df(self, df, line):
+
+        filtered_df = df[
+            (df['dataset'] == self.dataset) &
+            (df['flip_method'] == line['flip_method']) &
+            (df['estimator_model'] == line['estimator_model']) &
+            (df['classification_model'] == line['classification_model'])
+        ].copy()
+
+        if filtered_df.empty:
+            logging.warning(f"No data found for line: {line}")
+            return None
+
+        if 'Threshold' in filtered_df.columns and filtered_df['Threshold'].dtype == float:
+            filtered_df = filtered_df.sort_values('Threshold')
+        elif 'Current Threshold' in filtered_df.columns:
+            filtered_df = filtered_df.sort_values('Current Threshold')
+        return filtered_df
+
+    def plot_metrics(self):
+
+        if self.results_df is None or self.differences_df is None or self.cumulative_differences_df is None:
+            logging.error("Evaluation results or differences not loaded. Call load_evaluation_results() first.")
+            raise ValueError("Evaluation results or differences not loaded.")
+
+        performance_metrics = ['Accuracy', 'F1 Score', 'Matthews Correlation Coefficient']
+        fairness_metrics = ['Statistical Parity Difference', 'Equal Opportunity Difference', 'Equalized Odds Difference']
+        all_metrics = performance_metrics + fairness_metrics
+
+        global_max_diff = self._compute_global_max(self.differences_df, self.cumulative_differences_df, all_metrics)
+
+        self._plot_metric_set(self.results_df, all_metrics, 'Threshold', 'Results', 'A', plot_number=7)
+        self._plot_metric_set(self.differences_df, all_metrics, 'Current Threshold', 'Differences', 'B', plot_number=7, use_combined_plot=True, y_limit=global_max_diff)
+
+    def _compute_global_max(self, differences_df, cumulative_df, metrics):
+
+        max_vals = []
+        for df in [differences_df, cumulative_df]:
+            for metric in metrics:
+                if metric in df.columns:
+                    max_val = df[metric].abs().max()
+                    if pd.notnull(max_val):
+                        max_vals.append(max_val)
+        if max_vals:
+            limit = max(max_vals)
+            limit = np.ceil(limit / 0.05) * 0.05
+            return limit
+        else:
+            return None
+
+    def _plot_metric_set(self, df, metrics, threshold_col, data_label, sub_label, plot_number, use_combined_plot=False):
+
+        num_metrics = len(metrics)
+        num_rows = (num_metrics + 2) // 3
+        fig, axes = plt.subplots(num_rows, 3, figsize=(18, 5 * num_rows))
+        axes = axes.flatten()
+        plt.subplots_adjust(hspace=0.6, bottom=-0.15)
+
+        for idx, metric in enumerate(metrics):
+            ax = axes[idx]
+            ax.set_xlabel('Threshold')
+            ax.set_ylabel(metric)
+            y_values = []
+
+            if threshold_col == 'Threshold' and not use_combined_plot:
+                ax.set_xticks(self.threshold_values)
+
+            for line in self.plots_list:
+                filtered_df = self.filter_results_df(df, line)
+                if filtered_df is not None:
+                    label = f"{line['estimator_model']}_{line['classification_model']}_{line['flip_method']}"
+                    if use_combined_plot:
+                        if self.multiple_lines and data_label == 'Differences':
+                            cumulative_df = self.filter_results_df(self.cumulative_differences_df, line)
+                            if cumulative_df is not None:
+                                x = cumulative_df[threshold_col].astype(str)
+                                cumulative_y = cumulative_df[metric]
+
+                                ax.plot(
+                                    x,
+                                    cumulative_y,
+                                    marker='o',
+                                    label=label
+                                )
+                                y_values.extend(cumulative_y.values)
+                        else:
+                            cumulative_df = self.filter_results_df(self.cumulative_differences_df, line)
+                            if cumulative_df is not None:
+                                merged_df = pd.merge(
+                                    filtered_df,
+                                    cumulative_df[['Threshold', metric] + self.id_columns],
+                                    on=['Threshold'] + self.id_columns,
+                                    suffixes=('', '_Cumulative')
+                                )
+                                x = merged_df[threshold_col].astype(str)
+                                y = merged_df[metric]
+                                cumulative_y = merged_df[f'{metric}_Cumulative']
+
+                                colors = ['green' if val >= 0 else 'red' for val in y]
+
+                                bar_container = ax.bar(x, y, label='Individual Difference', color=colors)
+                                y_values.extend(y.values)
+
+                                line_plot, = ax.plot(
+                                    x,
+                                    cumulative_y,
+                                    marker='o',
+                                    color='blue',
+                                    label='Cumulative Difference'
+                                )
+                                y_values.extend(cumulative_y.values)
+
+                                table_data = pd.DataFrame({
+                                    'Threshold': x,
+                                    'Individual Diff': y,
+                                    'Cumulative Diff': cumulative_y
+                                })
+
+                                table = ax.table(
+                                    cellText=table_data[['Individual Diff', 'Cumulative Diff']].T.round(3).values,
+                                    cellLoc='center',
+                                    rowLoc='center',
+                                    loc='bottom',
+                                    bbox=[0.0, -0.25, 1.0, 0.125]
+                                )
+
+                                for (i, j), cell in table.get_celld().items():
+                                    if i == 0:
+                                        color = colors[j]
+                                        cell.get_text().set_color(color)
+                                    elif i == 1:
+                                        cell.get_text().set_color('blue')
+                                    cell.get_text().set_fontsize(8)
+
+                            else:
+                                logging.warning(f"No cumulative data found for line: {line}")
+                                continue
+                    else:
+                        ax.plot(
+                            filtered_df[threshold_col],
+                            filtered_df[metric],
+                            marker='o',
+                            label=label
+                        )
+                        y_values.extend(filtered_df[metric].values)
+                        if not (self.multiple_lines and data_label == 'Results'):
+                            for x_val, y_val in zip(filtered_df[threshold_col], filtered_df[metric]):
+                                ax.annotate(
+                                    f"{y_val:.2f}",
+                                    (x_val, y_val),
+                                    textcoords="offset points",
+                                    xytext=(0, 5),
+                                    ha='center',
+                                    va='bottom',
+                                    fontsize=8
+                                )
+            if y_values:
+                min_y = min(y_values)
+                max_y = max(y_values)
+                y_range = max_y - min_y
+                if y_range == 0:
+                    y_range = 1
+                margin = y_range * 0.1
+                ax.set_ylim(min_y - margin, max_y + margin)
+
+            if use_combined_plot:
+                if self.multiple_lines and data_label == 'Differences':
+                    ax.axhline(0, color='black', linewidth=0.8)
+                    ax.yaxis.set_major_locator(MaxNLocator(10))
+                    ax.grid(True, which='major', axis='y', linestyle='--')
+                else:
+                    ax.axhline(0, color='black', linewidth=0.8)
+                    ax.yaxis.set_major_locator(MaxNLocator(10))
+                    ax.grid(True, which='major', axis='y', linestyle='--')
+                    ax.grid(True)
+            else:
+                ax.grid(True)
+
+            handles, labels = ax.get_legend_handles_labels()
+            by_label = dict(zip(labels, handles))
+            ax.legend(by_label.values(), by_label.keys())
+
+        for idx in range(len(metrics), len(axes)):
+            fig.delaxes(axes[idx])
+
+        number_prefix = f"{plot_number}_{sub_label}_"
+        plot_filename = os.path.join(self.plots_directory, f"{self.dataset}_{number_prefix}{data_label}_Performance_Fairness_Metrics.png")
+        plt.tight_layout()
+        fig.suptitle(f"{self.dataset.capitalize()} Performance Fairness {data_label}")
+        plt.savefig(plot_filename, bbox_inches='tight')
+        plt.close()
+        logging.info(f"Plot saved: {plot_filename}")
+
+    def plot_confusion_matrix_rates(self):
+
+        if self.results_df is None or self.differences_df is None or self.cumulative_differences_df is None:
+            logging.error("Evaluation results or differences not loaded. Call load_evaluation_results() first.")
+            raise ValueError("Evaluation results or differences not loaded.")
+
+        group_names = ['Full', 'Priv', 'Prot']
+        rate_types = ['Negative Rates', 'Positive Rates']
+        negative_rates = ['True Negative Rate', 'False Positive Rate']
+        positive_rates = ['True Positive Rate', 'False Negative Rate']
+        rate_groups = [negative_rates, positive_rates]
+
+        all_rates = []
+        for group_prefix in group_names:
+            for rate_list in rate_groups:
+                for rate_name in rate_list:
+                    metric_name = f"{group_prefix} {rate_name}"
+                    all_rates.append(metric_name)
+
+        global_max_diff = self._compute_global_max(self.differences_df, self.cumulative_differences_df, all_rates)
+
+        plot_order = 1
+
+        for group_prefix in group_names:
+            for rate_type, rates in zip(rate_types, rate_groups):
+                self._plot_confusion_rates(self.results_df, group_prefix, rates, 'Threshold', rate_type, 'Results', 'A', plot_order)
+                self._plot_confusion_rates(self.differences_df, group_prefix, rates, 'Current Threshold', rate_type, 'Differences', 'B', plot_order, use_combined_plot=True, y_limit=global_max_diff)
+                plot_order += 1
+
+    def _plot_confusion_rates(
+        self,
+        df,
+        group_prefix,
+        rates,
+        threshold_col,
+        rate_type,
+        data_label,
+        sub_label,
+        plot_number,
+        use_combined_plot=False
+        ):
+
+        fig, axes = plt.subplots(1, len(rates), figsize=(6 * len(rates), 5))
+        plt.subplots_adjust(hspace=0.6, bottom=0.3)
+        fig.suptitle(f"{self.dataset.capitalize()} {group_prefix} {rate_type} {data_label}")
+
+        if len(rates) == 1:
+            axes = [axes]
+
+        for idx, rate_name in enumerate(rates):
+            ax = axes[idx]
+            metric_name = f'{group_prefix} {rate_name}'
+            ax.set_xlabel('Threshold')
+            ax.set_ylabel(rate_name)
+            y_values = []
+
+            if threshold_col == 'Threshold' and not use_combined_plot:
+                ax.set_xticks(self.threshold_values)
+
+            for line in self.plots_list:
+                filtered_df = self.filter_results_df(df, line)
+                if filtered_df is not None and metric_name in filtered_df.columns:
+                    label = f"{line['estimator_model']}_{line['classification_model']}_{line['flip_method']}"
+                    if use_combined_plot:
+                        if self.multiple_lines and data_label == 'Differences':
+                            cumulative_df = self.filter_results_df(self.cumulative_differences_df, line)
+                            if cumulative_df is not None:
+                                x = cumulative_df[threshold_col].astype(str)
+                                cumulative_y = cumulative_df[metric_name]
+
+                                ax.plot(
+                                    x,
+                                    cumulative_y,
+                                    marker='o',
+                                    label=label
+                                )
+                                y_values.extend(cumulative_y.values)
+                        else:
+                            cumulative_df = self.filter_results_df(self.cumulative_differences_df, line)
+                            if cumulative_df is not None:
+                                merged_df = pd.merge(
+                                    filtered_df,
+                                    cumulative_df[['Threshold', metric_name] + self.id_columns],
+                                    on=['Threshold'] + self.id_columns,
+                                    suffixes=('', '_Cumulative')
+                                )
+                                x = merged_df[threshold_col].astype(str)
+                                y = merged_df[metric_name]
+                                cumulative_y = merged_df[f'{metric_name}_Cumulative']
+
+                                colors = ['green' if val >= 0 else 'red' for val in y]
+
+                                bar_container = ax.bar(x, y, label='Individual Difference', color=colors)
+                                y_values.extend(y.values)
+
+                                line_plot, = ax.plot(
+                                    x,
+                                    cumulative_y,
+                                    marker='o',
+                                    color='blue',
+                                    label='Cumulative Difference'
+                                )
+                                y_values.extend(cumulative_y.values)
+
+                                table_data = pd.DataFrame({
+                                    'Threshold': x,
+                                    'Individual Diff': y,
+                                    'Cumulative Diff': cumulative_y
+                                })
+
+                                table = ax.table(
+                                    cellText=table_data[['Individual Diff', 'Cumulative Diff']].T.round(3).values,
+                                    cellLoc='center',
+                                    rowLoc='center',
+                                    loc='bottom',
+                                    bbox=[0.0, -0.25, 1.0, 0.125]
+                                )
+
+                                for (i, j), cell in table.get_celld().items():
+                                    if i == 0:
+                                        color = colors[j]
+                                        cell.get_text().set_color(color)
+                                    elif i == 1:
+                                        cell.get_text().set_color('blue')
+                                    cell.get_text().set_fontsize(8)
+                    else:
+                        ax.plot(
+                            filtered_df[threshold_col],
+                            filtered_df[metric_name],
+                            marker='o',
+                            label=label
+                        )
+                        y_values.extend(filtered_df[metric_name].values)
+                        if not (self.multiple_lines and data_label == 'Results'):
+                            for x_val, y_val in zip(filtered_df[threshold_col], filtered_df[metric_name]):
+                                ax.annotate(
+                                    f"{y_val:.2f}",
+                                    (x_val, y_val),
+                                    textcoords="offset points",
+                                    xytext=(0, 5),
+                                    ha='center',
+                                    va='bottom',
+                                    fontsize=8
+                                )
+            if y_values:
+                min_y = min(y_values)
+                max_y = max(y_values)
+                y_range = max_y - min_y
+                if y_range == 0:
+                    y_range = 1
+                margin = y_range * 0.1
+                ax.set_ylim(min_y - margin, max_y + margin)
+
+            if use_combined_plot:
+                if self.multiple_lines and data_label == 'Differences':
+                    ax.axhline(0, color='black', linewidth=0.8)
+                    ax.yaxis.set_major_locator(MaxNLocator(10))
+                    ax.grid(True, which='major', axis='y', linestyle='--')
+                else:
+                    ax.axhline(0, color='black', linewidth=0.8)
+                    ax.yaxis.set_major_locator(MaxNLocator(10))
+                    ax.grid(True, which='major', axis='y', linestyle='--')
+                    ax.grid(True)
+            else:
+                ax.grid(True)
+
+            handles, labels = ax.get_legend_handles_labels()
+            by_label = dict(zip(labels, handles))
+            ax.legend(by_label.values(), by_label.keys())
+
+        for idx in range(len(rates), len(axes)):
+            fig.delaxes(axes[idx])
+
+        number_prefix = f"{plot_number}_{sub_label}_"
+        plot_filename = os.path.join(
+            self.plots_directory,
+            f"{self.dataset}_{number_prefix}{data_label}_Confusion_Matrix_{group_prefix}_{rate_type.replace(' ', '_')}.png"
+        )
+        plt.tight_layout()
+        plt.savefig(plot_filename, bbox_inches='tight')
+        plt.close()
+        logging.info(f"Plot saved: {plot_filename}")

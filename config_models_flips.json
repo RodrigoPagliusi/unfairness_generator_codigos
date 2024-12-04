@@ -1,0 +1,7 @@
+[
+    {
+        "flip_method": "Min",
+        "estimator_model":"RandomForest",
+        "classification_model":"RandomForest"
+    }
+]

@@ -1,0 +1,24 @@
+{
+    "dataset": {
+        "name": "",
+        "extension": "csv",
+        "processing_stage":"",
+        "label_name": "",
+        "negative_label": "",
+        "sensitive_attribute": "",
+        "protected_value": "",
+        "test_size": 0.2,
+        "random_state": 1
+    },
+    "models": {
+        "estimator_model": "",
+        "flip_method": "",
+        "thresholds": [0.00, 0.05, 0.10, 0.15, 0.20],
+        "classification_model": "",
+        "tune_hyperparameters": "Sim",
+        "hyperparameter_tuning": {
+            "num_trials": 10,
+            "optimization_metric": "matthews_corrcoef"
+        }
+    }
+}

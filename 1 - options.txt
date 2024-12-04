@@ -1,0 +1,31 @@
+Options for the config.json file:
+
+processing_stage = ["encoded","scaled"]
+test_size = * number between 0 and 1
+random_state = * number for storing seed
+
+estimator_model = ["RandomForest","MLPClassifier","SVC"]
+classification_model =  = ["RandomForest","MLPClassifier","DecisionTree",
+                            "LogisticRegression","SVC","GaussianNB"]
+tune_hyperparameters = ["Sim",""]
+num_trials = * any integer
+optimization_metric = ["accuracy","f1_score","matthews_corrcoef"]
+flip_method - ["Min","Max","Random"]
+thresholds = * lista of floats
+
+
+
+
+
+
+O que vou mostrar:
+
+
+Priorizar o aumento da injustiça e se a queda da performance está
+num limite tolerável.
+
+MLP RandomForest Min
+MLP MLP Max
+RandomForest Decision Tree Min
+RandomForest LogisticRegression Max
+MLP GaussianNB Min
